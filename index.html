@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GECO — Get Elevated, Climb Over</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f3ee;
+    --lime: #c8f230;
+    --gray: #1e1e1e;
+    --mid: #3a3a3a;
+    --accent: #c8f230;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--lime);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+  }
+  .cursor.big { width: 36px; height: 36px; background: transparent; border: 2px solid var(--lime); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 3rem;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--lime); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  nav ul a:hover { opacity: 1; color: var(--lime); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 40%, #1a2800 0%, transparent 70%),
+                radial-gradient(ellipse 40% 50% at 30% 70%, #0d1a00 0%, transparent 60%);
+  }
+  .hero-gecko {
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52%;
+    opacity: 0.18;
+    filter: invert(1) sepia(1) saturate(4) hue-rotate(40deg);
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 1.2rem;
+    position: relative;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 13vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    position: relative;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-title .lime { color: var(--lime); }
+  .hero-sub {
+    margin-top: 1.8rem;
+    font-size: 1rem;
+    max-width: 420px;
+    line-height: 1.7;
+    opacity: 0.6;
+    position: relative;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    position: relative;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.9rem 2.2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: none;
+    transition: transform 0.2s, background 0.2s, color 0.2s;
+  }
+  .btn-lime { background: var(--lime); color: var(--black); font-weight: 700; }
+  .btn-lime:hover { transform: translateY(-3px); }
+  .btn-outline { background: transparent; color: var(--white); border: 1px solid #444; }
+  .btn-outline:hover { border-color: var(--lime); color: var(--lime); transform: translateY(-3px); }
+
+  .hero-badges {
+    position: absolute; right: 3rem; bottom: 5rem;
+    display: flex; flex-direction: column; gap: 0.6rem; align-items: flex-end;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .badge {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 0.35rem 0.8rem; border: 1px solid #333; color: #888;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION GENERIC */
+  section { padding: 6rem 3rem; }
+  .section-label {
+    font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    line-height: 1; letter-spacing: 0.03em;
+  }
+
+  /* ABOUT */
+  #about { background: var(--gray); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    margin-top: 3.5rem; align-items: start;
+  }
+  .about-text p { font-size: 1rem; line-height: 1.8; opacity: 0.7; margin-bottom: 1.2rem; }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+  }
+  .stat-card {
+    border: 1px solid #333;
+    padding: 1.5rem;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem; color: var(--lime); line-height: 1;
+  }
+  .stat-desc { font-size: 0.78rem; opacity: 0.5; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.3rem; }
+
+  .collab-row {
+    display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem;
+  }
+  .collab-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.1em;
+    border: 1px solid #444; padding: 0.5rem 1.2rem; color: #aaa;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .collab-badge:hover { border-color: var(--lime); color: var(--lime); }
+
+  /* PRODUCTS */
+  #products { background: var(--black); }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
+    margin-top: 3.5rem;
+    background: #1e1e1e;
+  }
+  .product-card {
+    background: #111;
+    aspect-ratio: 3/4;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 1.5rem;
+    transition: transform 0.3s;
+  }
+  .product-card:hover .product-overlay { opacity: 1; }
+  .product-img-placeholder {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem; opacity: 0.07;
+  }
+  .product-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(200,242,48,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .product-tag {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 0.3rem; position: relative;
+  }
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.06em;
+    position: relative;
+  }
+  .product-price { font-size: 0.85rem; opacity: 0.5; margin-top: 0.2rem; position: relative; }
+  .product-coming {
+    position: absolute; top: 1rem; right: 1rem;
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    background: var(--lime); color: var(--black); padding: 0.25rem 0.6rem; font-weight: 700;
+  }
+
+  /* CAREERS */
+  #careers { background: var(--gray); }
+  .careers-intro { max-width: 560px; margin-top: 1rem; font-size: 1rem; line-height: 1.7; opacity: 0.65; }
+  .jobs-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    margin-top: 3rem;
+    background: #2a2a2a;
+  }
+  .job-card {
+    background: #1e1e1e;
+    padding: 2rem 2rem 1.8rem;
+    transition: background 0.2s;
+  }
+  .job-card:hover { background: #222; }
+  .job-type {
+    font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 0.7rem;
+  }
+  .job-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem; letter-spacing: 0.04em; margin-bottom: 0.8rem;
+  }
+  .job-desc { font-size: 0.85rem; line-height: 1.7; opacity: 0.55; margin-bottom: 1.2rem; }
+  .job-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .job-tag {
+    font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+    border: 1px solid #333; padding: 0.25rem 0.7rem; color: #777;
+  }
+  .job-salary {
+    margin-top: 1.2rem;
+    font-size: 0.75rem; color: var(--lime); letter-spacing: 0.1em;
+  }
+  .job-perks {
+    margin-top: 0.8rem;
+    font-size: 0.75rem; opacity: 0.45; line-height: 1.6;
+  }
+
+  /* TEAM */
+  #team { background: var(--black); }
+  .team-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    margin-top: 3.5rem;
+  }
+  .team-card { border: 1px solid #1e1e1e; padding: 2rem; }
+  .team-avatar {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--lime), #7ab000);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem;
+    color: var(--black); margin-bottom: 1rem;
+  }
+  .team-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; }
+  .team-role { font-size: 0.7rem; color: var(--lime); letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.2rem; }
+  .team-bio { font-size: 0.82rem; opacity: 0.5; line-height: 1.7; margin-top: 0.8rem; }
+
+  /* VALUES */
+  #values {
+    background: var(--lime);
+    color: var(--black);
+    padding: 5rem 3rem;
+  }
+  #values .section-label { color: #4a5a00; }
+  #values .section-title { color: var(--black); }
+  .values-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+    margin-top: 3rem;
+  }
+  .value-card {
+    border-top: 2px solid rgba(0,0,0,0.15);
+    padding-top: 1.2rem;
+  }
+  .value-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem; opacity: 0.12; line-height: 1;
+  }
+  .value-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; margin-top: -0.5rem; letter-spacing: 0.04em;
+  }
+  .value-desc { font-size: 0.82rem; line-height: 1.7; opacity: 0.65; margin-top: 0.5rem; }
+
+  /* CONTACT */
+  #contact { background: var(--gray); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    margin-top: 3rem; align-items: start;
+  }
+  .contact-info p { font-size: 1rem; line-height: 1.8; opacity: 0.6; margin-bottom: 2rem; }
+  .contact-detail {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #666; margin-bottom: 0.4rem;
+  }
+  .contact-detail span { color: var(--white); opacity: 0.85; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input, .contact-form textarea {
+    background: #111; border: 1px solid #2a2a2a;
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; padding: 0.9rem 1.1rem;
+    outline: none; transition: border-color 0.2s;
+    resize: none;
+  }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: var(--lime); }
+  .contact-form textarea { min-height: 120px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid #1e1e1e;
+    padding: 2.5rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: 0.12em; color: var(--white);
+  }
+  .footer-logo span { color: var(--lime); }
+  footer p { font-size: 0.72rem; opacity: 0.35; letter-spacing: 0.1em; }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden; background: var(--lime); padding: 0.9rem 0;
+    white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-inner span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.15em;
+    color: var(--black); padding: 0 2.5rem;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    nav ul { gap: 1.5rem; }
+    #hero { padding: 0 1.5rem 4rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
+    .jobs-grid { grid-template-columns: 1fr; }
+    .values-grid { grid-template-columns: 1fr 1fr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .hero-badges { display: none; }
+  }
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .values-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr; }
+    nav ul { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">GE<span>C</span>O</a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#careers">Careers</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Gecko SVG silhouette -->
+  <svg class="hero-gecko" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="200" cy="150" rx="35" ry="55" fill="white"/>
+    <ellipse cx="200" cy="90" rx="22" ry="28" fill="white"/>
+    <circle cx="187" cy="80" r="5" fill="white"/>
+    <circle cx="213" cy="80" r="5" fill="white"/>
+    <ellipse cx="200" cy="210" rx="12" ry="60" fill="white"/>
+    <!-- legs -->
+    <ellipse cx="165" cy="130" rx="40" ry="9" fill="white" transform="rotate(-30 165 130)"/>
+    <ellipse cx="235" cy="130" rx="40" ry="9" fill="white" transform="rotate(30 235 130)"/>
+    <ellipse cx="170" cy="180" rx="38" ry="9" fill="white" transform="rotate(20 170 180)"/>
+    <ellipse cx="230" cy="180" rx="38" ry="9" fill="white" transform="rotate(-20 230 180)"/>
+    <!-- toes -->
+    <ellipse cx="128" cy="117" rx="10" ry="5" fill="white" transform="rotate(-30 128 117)"/>
+    <ellipse cx="272" cy="117" rx="10" ry="5" fill="white" transform="rotate(30 272 117)"/>
+    <ellipse cx="137" cy="192" rx="10" ry="5" fill="white" transform="rotate(20 137 192)"/>
+    <ellipse cx="263" cy="192" rx="10" ry="5" fill="white" transform="rotate(-20 263 192)"/>
+  </svg>
+
+  <div class="hero-tag">Banská Bystrica · Est. 2025 · Streetwear & Footwear</div>
+  <h1 class="hero-title">GET<br><span class="lime">ELEVATED</span></h1>
+  <p class="hero-sub">Premium shoes and baggy streetwear built for those who refuse to stay on the ground. Collaborations with the biggest names in the game.</p>
+  <div class="hero-cta">
+    <a href="#products" class="btn btn-lime">Shop Now</a>
+    <a href="#careers" class="btn btn-outline">Join the Team</a>
+  </div>
+
+  <div class="hero-badges">
+    <div class="badge">× Adidas Collab</div>
+    <div class="badge">× Nike Collab</div>
+    <div class="badge">× Yeezy Collab</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who We Are</div>
+  <h2 class="section-title">Born to<br>Climb Higher</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>GECO is a fully-remote streetwear and footwear brand based in Banská Bystrica, Slovakia. We design shoes and baggy streetwear for anyone who wants to stand out — from the streets to the summit.</p>
+      <p>Our white gecko logo represents adaptability, grip, and the ability to scale any surface. We partner with the biggest brands in the game to bring you exclusive drops you won't find anywhere else.</p>
+      <div class="section-label" style="margin-top:2rem; margin-bottom:0.8rem;">Our Collaborations</div>
+      <div class="collab-row">
+        <div class="collab-badge">Adidas</div>
+        <div class="collab-badge">Nike</div>
+        <div class="collab-badge">Yeezy</div>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">15K€</div>
+        <div class="stat-desc">Startup Budget</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100%</div>
+        <div class="stat-desc">Remote Team</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3+</div>
+        <div class="stat-desc">Brand Collabs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">∞</div>
+        <div class="stat-desc">Ambition</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="section-label">Our Collection</div>
+  <h2 class="section-title">The Drops</h2>
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-img-placeholder">👟</div>
+      <div class="product-overlay"></div>
+      <div class="product-tag">Footwear</div>
+      <div class="product-name">GECKO RUNNER 01</div>
+      <div class="product-price">€129 — €149</div>
+    </div>
+    <div class="product-card">
+      <div class="product-img-placeholder">👟</div>
+      <div class="product-overlay"></div>
+      <div class="product-coming">New</div>
+      <div class="product-tag">Footwear × Adidas</div>
+      <div class="product-name">CLIMB FORCE LOW</div>
+      <div class="product-price">€159 — €179</div>
+    </div>
+    <div class="product-card">
+      <div class="product-img-placeholder">👕</div>
+      <div class="product-overlay"></div>
+      <div class="product-tag">Streetwear</div>
+      <div class="product-name">BAGGY OG TEE</div>
+      <div class="product-price">€49 — €59</div>
+    </div>
+    <div class="product-card">
+      <div class="product-img-placeholder">👖</div>
+      <div class="product-overlay"></div>
+      <div class="product-coming">Soon</div>
+      <div class="product-tag">Streetwear</div>
+      <div class="product-name">WIDE CARGOS</div>
+      <div class="product-price">€89 — €109</div>
+    </div>
+    <div class="product-card">
+      <div class="product-img-placeholder">👟</div>
+      <div class="product-overlay"></div>
+      <div class="product-coming">Collab</div>
+      <div class="product-tag">Footwear × Yeezy</div>
+      <div class="product-name">ELEVATED FOAM X</div>
+      <div class="product-price">€219 — €249</div>
+    </div>
+    <div class="product-card">
+      <div class="product-img-placeholder">🧢</div>
+      <div class="product-overlay"></div>
+      <div class="product-tag">Accessories</div>
+      <div class="product-name">GECKO CAP</div>
+      <div class="product-price">€35 — €45</div>
+    </div>
+  </div>
+  <p style="font-size:0.75rem; opacity:0.35; margin-top:1.2rem; letter-spacing:0.1em;">* Product images coming soon. Add your photos above each card.</p>
+</section>
+
+<!-- VALUES -->
+<section id="values">
+  <div class="section-label">What Drives Us</div>
+  <h2 class="section-title">Our Values</h2>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-num">01</div>
+      <div class="value-name">Creativity</div>
+      <div class="value-desc">Every design starts with a blank page and a bold idea. We never play it safe.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-num">02</div>
+      <div class="value-name">Teamwork</div>
+      <div class="value-desc">Remote doesn't mean isolated. We build together, wherever we are in the world.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-num">03</div>
+      <div class="value-name">Innovation</div>
+      <div class="value-desc">From materials to marketing, we push boundaries on every front.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-num">04</div>
+      <div class="value-name">Sustainability</div>
+      <div class="value-desc">We care about the planet we walk on. Responsible sourcing, always.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section id="careers">
+  <div class="section-label">Join GECO</div>
+  <h2 class="section-title">Open Positions</h2>
+  <p class="careers-intro">We're building our dream team. If you're ambitious, creative and ready to climb — we want to hear from you. All positions are office-based, 8h/day, with a starting salary of €1,500+.</p>
+  <div class="jobs-grid">
+
+    <div class="job-card">
+      <div class="job-type">Marketing</div>
+      <div class="job-title">Marketing Manager</div>
+      <div class="job-desc">Lead our brand campaigns, manage ad spend, and build GECO's voice across all channels. You'll oversee strategy from launch events to influencer partnerships.</div>
+      <div class="job-tags">
+        <div class="job-tag">Strategy</div>
+        <div class="job-tag">Analytics</div>
+        <div class="job-tag">Brand</div>
+        <div class="job-tag">Campaigns</div>
+      </div>
+      <div class="job-salary">💰 From €1,800 / month</div>
+      <div class="job-perks">✦ Bonuses ✦ Flexible hours ✦ Employee discounts ✦ Remote Fridays</div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-type">Human Resources</div>
+      <div class="job-title">HR Manager</div>
+      <div class="job-desc">Handle recruitment, onboarding, and culture at GECO. You keep our team happy, motivated, and growing. Excellent people skills are a must.</div>
+      <div class="job-tags">
+        <div class="job-tag">Recruitment</div>
+        <div class="job-tag">Culture</div>
+        <div class="job-tag">Communication</div>
+      </div>
+      <div class="job-salary">💰 From €1,600 / month</div>
+      <div class="job-perks">✦ Bonuses ✦ Extra vacation ✦ Employee discounts</div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-type">Finance</div>
+      <div class="job-title">Finance Manager</div>
+      <div class="job-desc">Own our financial operations — budgeting, forecasting, and making sure every euro we spend moves us forward. Experience with startup finances is a big plus.</div>
+      <div class="job-tags">
+        <div class="job-tag">Budgeting</div>
+        <div class="job-tag">Forecasting</div>
+        <div class="job-tag">Excel</div>
+        <div class="job-tag">Reporting</div>
+      </div>
+      <div class="job-salary">💰 From €1,900 / month</div>
+      <div class="job-perks">✦ Performance bonuses ✦ Stock options ✦ Discounts</div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-type">Design</div>
+      <div class="job-title">Graphic Designer</div>
+      <div class="job-desc">Create visuals that define the GECO look — from product packaging to social content. You live in Figma or Photoshop and have a strong streetwear aesthetic.</div>
+      <div class="job-tags">
+        <div class="job-tag">Figma</div>
+        <div class="job-tag">Photoshop</div>
+        <div class="job-tag">Branding</div>
+        <div class="job-tag">Social</div>
+      </div>
+      <div class="job-salary">💰 From €1,500 / month</div>
+      <div class="job-perks">✦ Creative freedom ✦ Flexible hours ✦ Discounts</div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-type">Digital</div>
+      <div class="job-title">Social Media Manager</div>
+      <div class="job-desc">Grow our online presence on Instagram, TikTok, and beyond. You understand trends, create content, and engage the GECO community every day.</div>
+      <div class="job-tags">
+        <div class="job-tag">Instagram</div>
+        <div class="job-tag">TikTok</div>
+        <div class="job-tag">Content</div>
+        <div class="job-tag">Analytics</div>
+      </div>
+      <div class="job-salary">💰 From €1,500 / month</div>
+      <div class="job-perks">✦ Free products ✦ Flexible hours ✦ Bonuses</div>
+    </div>
+
+    <div class="job-card">
+      <div class="job-type">Sales</div>
+      <div class="job-title">Sales Manager</div>
+      <div class="job-desc">Drive revenue by landing retail partnerships, managing the online store, and finding new channels. Goal-oriented with a passion for streetwear culture.</div>
+      <div class="job-tags">
+        <div class="job-tag">B2B</div>
+        <div class="job-tag">E-commerce</div>
+        <div class="job-tag">Negotiation</div>
+        <div class="job-tag">CRM</div>
+      </div>
+      <div class="job-salary">💰 From €1,700 + commission</div>
+      <div class="job-perks">✦ Commission bonuses ✦ Extra vacation ✦ Discounts</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:2.5rem; padding: 2rem; border: 1px solid #2a2a2a;">
+    <div class="section-label" style="margin-bottom:0.5rem;">How to Apply</div>
+    <p style="font-size:0.9rem; line-height:1.8; opacity:0.6;">Send your <strong style="color:var(--white)">CV + Cover Letter</strong> to <strong style="color:var(--lime)">kristina.grosshappelova@sos-it.sk</strong>. Our HR team will review your application and invite selected candidates for an in-person interview. We'll prepare 3–5 questions tailored to your position. Best candidates receive an offer within 5 business days.</p>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-label">The Founders</div>
+  <h2 class="section-title">Who's Behind GECO</h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">MH</div>
+      <div class="team-name">Michal Hegedüs</div>
+      <div class="team-role">CEO & Co-Founder</div>
+      <div class="team-bio">Visionary behind the GECO brand. Drives product strategy and brand partnerships, including our collabs with Adidas, Nike and Yeezy.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">AM</div>
+      <div class="team-name">Adrián Mižer</div>
+      <div class="team-role">CEO & Co-Founder</div>
+      <div class="team-bio">Operations and growth architect. Keeps the company lean, focused, and scaling in the right direction from day one.</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">RF</div>
+      <div class="team-name">Richard Fodor</div>
+      <div class="team-role">CEO & Co-Founder</div>
+      <div class="team-bio">Creative lead and design visionary. Responsible for the GECO aesthetic, the white gecko logo, and every pixel of the brand identity.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Get In Touch</div>
+  <h2 class="section-title">Contact Us</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p>Have questions about our products, collabs, or open positions? Reach out — we're always open to new ideas and fresh talent.</p>
+      <div class="contact-detail">Location <span>Banská Bystrica, Slovakia</span></div>
+      <div class="contact-detail" style="margin-top:0.8rem;">Working Hours <span>Mon–Fri, 8:00 – 16:00</span></div>
+      <div class="contact-detail" style="margin-top:0.8rem;">Applications <span>kristina.grosshappelova@sos-it.sk</span></div>
+      <div class="contact-detail" style="margin-top:0.8rem;">Work Model <span>Office-based, 8h/day</span></div>
+    </div>
+    <form class="contact-form" onsubmit="return false;">
+      <input type="text" placeholder="Your Name">
+      <input type="email" placeholder="Your Email">
+      <input type="text" placeholder="Subject (e.g. Job Application — Marketing Manager)">
+      <textarea placeholder="Your message..."></textarea>
+      <button type="submit" class="btn btn-lime" style="border:none; text-align:center; cursor:none;">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">GE<span>C</span>O</div>
+  <p>Get Elevated, Climb Over — Banská Bystrica, SK © 2025</p>
+  <p style="font-size:0.65rem; opacity:0.2;">GECO Streetwear & Footwear. All rights reserved.</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .job-card, .product-card, .collab-badge').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+  });
+</script>
+</body>
+</html>
