@@ -208,10 +208,10 @@
   .products-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
     margin-top: 3.5rem;
-    background: #1e1e1e;
+    background: #1e1e1e00;
   }
   .product-card {
-    background: #111;
+    background: #ffffff15;
     aspect-ratio: 3/4;
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: flex-end;
@@ -226,7 +226,7 @@
   }
   .product-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(200,242,48,0.15), transparent);
+    background: linear-gradient(to top, rgba(200, 242, 48, 0.171), transparent);
     opacity: 0;
     transition: opacity 0.3s;
   }
@@ -339,6 +339,7 @@
     color: #666; margin-bottom: 0.4rem;
   }
   .contact-detail span { color: var(--white); opacity: 0.85; }
+  .contact-detail a { color: var(--white); opacity: 0.85; text-decoration: none; }
   .contact-form { display: flex; flex-direction: column; gap: 1rem; }
   .contact-form input, .contact-form textarea {
     background: #111; border: 1px solid #2a2a2a;
@@ -466,27 +467,31 @@
     <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
     <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
     <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
+    <span>GET ELEVATED</span><span>CLIMB OVER</span><span>GECO</span>
   </div>
 </div>
 
 <!-- ABOUT -->
 <section id="about">
   <div class="section-label">Who We Are</div>
-  <h2 class="section-title">Born to<br>Climb Higher</h2>
+  <h2 class="section-title">Born to<br>Climb Over</h2>
   <div class="about-grid">
     <div class="about-text">
       <p>GECO is a fully-remote streetwear and footwear brand based in Banská Bystrica, Slovakia. We design shoes and baggy streetwear for anyone who wants to stand out — from the streets to the summit.</p>
       <p>Our white gecko logo represents adaptability, grip, and the ability to scale any surface. We partner with the biggest brands in the game to bring you exclusive drops you won't find anywhere else.</p>
       <div class="section-label" style="margin-top:2rem; margin-bottom:0.8rem;">Our Collaborations</div>
       <div class="collab-row">
-        <div class="collab-badge">Adidas</div>
-        <div class="collab-badge">Nike</div>
-        <div class="collab-badge">Yeezy</div>
+        <div class="collab-badge"><a href="https://www.adidas.sk" style="color: var(--lime);">Adidas</a></div>
+        <div class="collab-badge"><a href="https://www.nike.com" style="color: var(--lime);">Nike</a></div>
+        <div class="collab-badge"><a href="https://www.yeezy.com" style="color: var(--lime);">YZY</a></div>
       </div>
     </div>
     <div class="about-stats">
       <div class="stat-card">
-        <div class="stat-num">15K€</div>
+        <div class="stat-num">47K€</div>
         <div class="stat-desc">Startup Budget</div>
       </div>
       <div class="stat-card">
@@ -520,8 +525,8 @@
               opacity: 1;">
 </div>      <div class="product-overlay"></div>
       <div class="product-tag">Footwear</div>
-      <div class="product-name">GECKO RUNNER 01</div>
-      <div class="product-price">€149</div>
+      <div class="product-name">GECO RUNNER 01</div>
+      <div class="product-price">€149 ( Out of Stock )</div>
     </div>
     <div class="product-card">
 <div class="product-img-placeholder">
@@ -530,12 +535,12 @@
        style="width: 100%; 
               height: 100%; 
               object-fit: contain; 
-              opacity: 1;">
+              opacity: 100%">
 </div>      <div class="product-overlay"></div>
       <div class="product-coming">New</div>
       <div class="product-tag">Footwear × Nike</div>
       <div class="product-name">SHOX X GECO</div>
-      <div class="product-price">€179</div>
+      <div class="product-price">€179 ( Out of Stock )</div>
     </div>
     <div class="product-card">
 <div class="product-img-placeholder">
@@ -547,8 +552,8 @@
               opacity: 1;">
 </div>      <div class="product-overlay"></div>
       <div class="product-tag">Streetwear</div>
-      <div class="product-name">BAGGY OG TEE</div>
-      <div class="product-price">€59</div>
+      <div class="product-name">BAGGY OG TEE BLACK</div>
+      <div class="product-price">€59 ( Out of Stock )</div>
     </div>
     <div class="product-card">
 <div class="product-img-placeholder">
@@ -561,8 +566,8 @@
 </div>      <div class="product-overlay"></div>
       <div class="product-coming">Soon</div>
       <div class="product-tag">Streetwear</div>
-      <div class="product-name">WIDE BARRELS</div>
-      <div class="product-price">€109</div>
+      <div class="product-name">WIDE BARRELS 01</div>
+      <div class="product-price">€109 ( Out of Stock )</div>
     </div>
     <div class="product-card">
 <div class="product-img-placeholder">
@@ -576,7 +581,7 @@
       <div class="product-coming">Collab</div>
       <div class="product-tag">Footwear × Yeezy</div>
       <div class="product-name">ELEVATED FOAM X</div>
-      <div class="product-price">€249</div>
+      <div class="product-price">€249 ( Out of Stock )</div>
     </div>
     <div class="product-card">
 <div class="product-img-placeholder">
@@ -588,11 +593,11 @@
               opacity: 1;">
 </div>      <div class="product-overlay"></div>
       <div class="product-tag">Accessories</div>
-      <div class="product-name">GECKO CAP</div>
-      <div class="product-price">€45</div>
+      <div class="product-name">GECO CAP 01</div>
+      <div class="product-price">€45 ( Out of Stock )</div>
     </div>
   </div>
-  <p style="font-size:0.75rem; opacity:0.35; margin-top:1.2rem; letter-spacing:0.1em;">* Product images coming soon. Add your photos above each card.</p>
+  <p style="font-size:0.75rem; opacity:0.35; margin-top:1.2rem; letter-spacing:0.1em;">*All images owned by GECO Streetwear & Footwear. All rights reserved.</p>
 </section>
 
 <!-- VALUES -->
@@ -640,7 +645,7 @@
         <div class="job-tag">Brand</div>
         <div class="job-tag">Campaigns</div>
       </div>
-      <div class="job-salary">💰 From €1,800 / month</div>
+      <div class="job-salary">From €1,800 / month</div>
       <div class="job-perks">✦ Bonuses ✦ Flexible hours ✦ Employee discounts ✦ Remote Fridays</div>
     </div>
 
@@ -653,7 +658,7 @@
         <div class="job-tag">Culture</div>
         <div class="job-tag">Communication</div>
       </div>
-      <div class="job-salary">💰 From €1,600 / month</div>
+      <div class="job-salary">From €1,600 / month</div>
       <div class="job-perks">✦ Bonuses ✦ Extra vacation ✦ Employee discounts</div>
     </div>
 
@@ -667,7 +672,7 @@
         <div class="job-tag">Excel</div>
         <div class="job-tag">Reporting</div>
       </div>
-      <div class="job-salary">💰 From €1,900 / month</div>
+      <div class="job-salary">From €1,900 / month</div>
       <div class="job-perks">✦ Performance bonuses ✦ Stock options ✦ Discounts</div>
     </div>
 
@@ -681,7 +686,7 @@
         <div class="job-tag">Branding</div>
         <div class="job-tag">Social</div>
       </div>
-      <div class="job-salary">💰 From €1,500 / month</div>
+      <div class="job-salary">From €1,500 / month</div>
       <div class="job-perks">✦ Creative freedom ✦ Flexible hours ✦ Discounts</div>
     </div>
 
@@ -695,7 +700,7 @@
         <div class="job-tag">Content</div>
         <div class="job-tag">Analytics</div>
       </div>
-      <div class="job-salary">💰 From €1,500 / month</div>
+      <div class="job-salary">From €1,500 / month</div>
       <div class="job-perks">✦ Free products ✦ Flexible hours ✦ Bonuses</div>
     </div>
 
@@ -709,7 +714,7 @@
         <div class="job-tag">Negotiation</div>
         <div class="job-tag">CRM</div>
       </div>
-      <div class="job-salary">💰 From €1,700 + commission</div>
+      <div class="job-salary">From €1,700 + commission</div>
       <div class="job-perks">✦ Commission bonuses ✦ Extra vacation ✦ Discounts</div>
     </div>
 
@@ -717,7 +722,7 @@
 
   <div style="margin-top:2.5rem; padding: 2rem; border: 1px solid #2a2a2a;">
     <div class="section-label" style="margin-bottom:0.5rem;">How to Apply</div>
-    <p style="font-size:0.9rem; line-height:1.8; opacity:0.6;">Send your <strong style="color:var(--white)">CV + Cover Letter</strong> to <strong style="color:var(--lime)">kristina.grosshappelova@sos-it.sk</strong>. Our HR team will review your application and invite selected candidates for an in-person interview. We'll prepare 3–5 questions tailored to your position. Best candidates receive an offer within 5 business days.</p>
+    <p style="font-size:0.9rem; line-height:1.8; opacity:0.6;">Send your <strong style="color:var(--white)">CV + Cover Letter</strong> to <strong style="color:var(--lime)">ponozqa.geco@gmail.com</strong>. Our HR team will review your application and invite selected candidates for an in-person interview. We'll prepare 3–5 questions tailored to your position. Best candidates receive an offer within 5 business days.</p>
   </div>
 </section>
 
@@ -755,15 +760,16 @@
     <div class="contact-info">
       <p>Have questions about our products, collabs, or open positions? Reach out — we're always open to new ideas and fresh talent.</p>
       <div class="contact-detail">Location <span>Banská Bystrica, Slovakia</span></div>
+      <div class="contact-detail" style="margin-top:0.8rem;">Email <a href="mailto:ponozqa.geco@gmail.com">ponozqa.geco@gmail.com</a></div>
       <div class="contact-detail" style="margin-top:0.8rem;">Working Hours <span>Mon–Fri, 8:00 – 16:00</span></div>
       <div class="contact-detail" style="margin-top:0.8rem;">Work Model <span>Office-based, 8h/day</span></div>
     </div>
-    <form class="contact-form" onsubmit="return false;">
-      <input type="text" placeholder="Your Name">
-      <input type="email" placeholder="Your Email">
-      <input type="text" placeholder="Subject (e.g. Job Application — Marketing Manager)">
-      <textarea placeholder="Your message..."></textarea>
-      <button type="submit" class="btn btn-lime" style="border:none; text-align:center; cursor:none;">Send Message</button>
+    <form id="contact-form" class="contact-form" action="mailto:ponozqa.geco@gmail.com" method="post">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="text" name="subject" placeholder="Subject (e.g. Job Application — Marketing Manager)" required>
+      <textarea name="message" placeholder="Your message..." required></textarea>
+      <button type="submit" class="btn btn-lime" style="border:none; text-align:center;">Send Message</button>
     </form>
   </div>
 </section>
@@ -771,7 +777,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">GE<span>C</span>O</div>
-  <p>Get Elevated, Climb Over — Banská Bystrica, SK © 2025</p>
+  <p>Get Elevated, Climb Over — Banská Bystrica, SK © 2026</p>
   <p style="font-size:0.65rem; opacity:0.2;">GECO Streetwear & Footwear. All rights reserved.</p>
 </footer>
 
@@ -786,5 +792,25 @@
     el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
   });
 </script>
+<script>
+  // Open the user's mail client with the form contents.
+  // This is more reliable across browsers than depending on HTML form -> mailto behavior.
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = contactForm.elements['name']?.value || '';
+      const email = contactForm.elements['email']?.value || '';
+      const subject = contactForm.elements['subject']?.value || 'Contact from GECO website';
+      const message = contactForm.elements['message']?.value || '';
+
+      const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+      const mailto = `mailto:ponozqa.geco@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    });
+  }
+</script>
 </body>
 </html>
+
